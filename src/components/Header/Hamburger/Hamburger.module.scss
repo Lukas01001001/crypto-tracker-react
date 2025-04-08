@@ -1,0 +1,12 @@
+@import "../../../style/index.scss";
+
+
+
+.container {
+  &__hamburgerIcon {
+    width: $hamburger-icon;
+  }
+  @media screen and (min-width: $small-desktop) {
+    display: none;
+  }
+}

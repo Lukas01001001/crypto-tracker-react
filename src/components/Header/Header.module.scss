@@ -1,0 +1,12 @@
+@import '../../style/index.scss';
+
+
+
+.headerContainer {
+    // @include box-shadow;
+    @include d-flex-row;
+    background-color: $white-color;
+    border-radius: $border-radius;
+    justify-content: space-around;
+    padding-top: 2rem;
+}

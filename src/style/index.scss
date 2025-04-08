@@ -1,0 +1,58 @@
+// color
+$blue-color: #8DDEF5;
+$white-color: #FAFBFD;
+$dark-color: #2D2E2D;
+
+// border
+
+$border-radius: .7rem;
+
+//sizes
+
+$hamburger-icon: 30px;
+
+$menu-font-size-desktop: 1.3rem;
+
+//mixins
+@mixin box-shadow() {
+  -webkit-box-shadow: -2px 6px 8px -9px rgba(66, 68, 90, 1);
+  -moz-box-shadow: -2px 6px 8px -9px rgba(66, 68, 90, 1);
+  box-shadow: -2px 6px 8px -9px rgba(66, 68, 90, 1);
+}
+@mixin menuItem() {
+  font-size: 1.7rem;
+  margin: 1rem 0;
+  cursor: pointer;
+  color: $dark-color;
+}
+
+@mixin fonts($weight) {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: $weight;
+  font-style: normal;
+}
+
+@mixin container() {
+  background-color: $white-color;
+  margin: 0 120px;
+}
+
+@mixin d-flex-column() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+@mixin d-flex-row() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+//breakepoints
+
+$tablet: 700px;
+$small-desktop: 1024px;

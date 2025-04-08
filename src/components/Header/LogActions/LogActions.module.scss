@@ -1,0 +1,20 @@
+@import "../../../style/index.scss";
+
+
+.logActionsList {
+    display: none;
+    @media screen and (min-width: $small-desktop) {
+      @include d-flex-row;
+      gap: 2rem;
+      &__item {
+        @include menuItem;
+        font-size: $menu-font-size-desktop;
+        font-weight: 500;
+      }
+      &__item_login {
+        border: 2px solid $blue-color;
+        padding: 0.7rem 1rem;
+        border-radius: $border-radius;
+      }
+    }
+  }
