@@ -20,6 +20,7 @@ function PriceSection() {
     LTC: ltc,
     DOGE: doge,
   };
+
   //*********************************************************** */
   /*useEffect(() => {
     const fetchData = async () => {
@@ -73,7 +74,7 @@ function PriceSection() {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message} </p>;
-
+  //console.log(data);
   return (
     <section className={s.container}>
       <h1 className={s.container__header}>
@@ -88,7 +89,7 @@ function PriceSection() {
               alt={`${crypto} icon`}
             />
             <span className={s.container__iconsWrapper__iconBox__price}>
-              $ {data[crypto].USD.toFixed(2)}
+              $ {data[crypto].USD.toFixed(5)}
             </span>
           </div>
         ))}
