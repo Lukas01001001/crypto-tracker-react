@@ -1,0 +1,51 @@
+@import "../../style/index.scss";
+
+.container {
+  @include d-flex-column;
+  padding: 10vh 0;
+  gap: 5vh;
+  @media screen and (min-width: $tablet) {
+    gap: 10vh;
+  }
+  &__header {
+    text-align: center;
+    font-size: 2.5rem;
+    color: $dark-color;
+    &__span {
+      color: $blue-color;
+    }
+  }
+  &__iconsWrapper {
+    display: grid;
+    grid-template-columns: 1;
+    gap: 5vh;
+    @media screen and (min-width: $tablet) {
+      grid-template-columns: 1fr 1fr;
+    }
+    &__iconBox {
+      @include d-flex-row;
+      border: 1px solid $blue-color;
+      padding: 1.5rem;
+      border-radius: $border-radius;
+      gap: 5vw;
+      transition: box-shadow,scale,cursor, .7s;
+      will-change: box-shadow,scale,cursor;
+      @media screen and (min-width: $tablet) {
+        gap: 2vw;
+      }
+      &__img {
+        width: 70px;
+      }
+      &__price {
+        font-size: 2rem;
+        font-weight: 700;
+        color: $dark-color;
+      }
+    }
+    &__iconBox:hover {
+        @include box-shadow;
+        cursor: pointer;
+        scale: 1.1;
+    }
+  }
+}
