@@ -4,6 +4,8 @@ import s from "./PriceSection.module.scss";
 
 import btc from "../../assets/btc.svg";
 import eth from "../../assets/eth.svg";
+import xrp from "../../assets/xrp.svg";
+import sol from "../../assets/sol.svg";
 import ltc from "../../assets/ltc.svg";
 import doge from "../../assets/doge.svg";
 
@@ -17,6 +19,8 @@ function PriceSection() {
   const cryptoIcons = {
     BTC: btc,
     ETH: eth,
+    XRP: xrp,
+    SOL: sol,
     LTC: ltc,
     DOGE: doge,
   };
@@ -44,7 +48,15 @@ function PriceSection() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const symbols = ["BTCUSDT", "ETHUSDT", "LTCUSDT", "DOGEUSDT"];
+        const symbols = [
+          "BTCUSDT",
+          "ETHUSDT",
+          "XRPUSDT",
+          "SOLUSDT",
+          "LTCUSDT",
+          "DOGEUSDT",
+        ];
+
         const responses = await Promise.all(
           symbols.map((symbol) =>
             fetch(
@@ -57,8 +69,10 @@ function PriceSection() {
         const formattedData = {
           BTC: { USD: parseFloat(results[0].price) },
           ETH: { USD: parseFloat(results[1].price) },
-          LTC: { USD: parseFloat(results[2].price) },
-          DOGE: { USD: parseFloat(results[3].price) },
+          XRP: { USD: parseFloat(results[2].price) },
+          SOL: { USD: parseFloat(results[3].price) },
+          LTC: { USD: parseFloat(results[4].price) },
+          DOGE: { USD: parseFloat(results[5].price) },
         };
 
         setData(formattedData);
