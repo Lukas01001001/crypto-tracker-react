@@ -88,7 +88,11 @@ function PriceSection() {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message} </p>;
-  //console.log(data);
+
+  //console.log("Crypto:", crypto);
+  //console.log("Data:", data[crypto]);
+  //console.log("Icon:", cryptoIcons[crypto]);
+
   return (
     <section className={s.container}>
       <h1 className={s.container__header}>
