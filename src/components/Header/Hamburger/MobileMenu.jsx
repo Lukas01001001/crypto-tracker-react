@@ -14,6 +14,8 @@ function MobileMenu({ clickToggleHandler }) {
       <ul className={s.container__menuList}>
         <li className={s.container__menuList__menuItem}>BTC</li>
         <li className={s.container__menuList__menuItem}>ETH</li>
+        <li className={s.container__menuList__menuItem}>XRP</li>
+        <li className={s.container__menuList__menuItem}>SOL</li>
         <li className={s.container__menuList__menuItem}>LTH</li>
         <li className={s.container__menuList__menuItem}>DOG</li>
       </ul>
