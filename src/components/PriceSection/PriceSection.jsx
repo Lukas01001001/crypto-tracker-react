@@ -16,6 +16,8 @@ function PriceSection() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [lastUpdated, setLastUpdated] = useState(null);
+
   const cryptoIcons = {
     BTC: btc,
     ETH: eth,
@@ -76,6 +78,8 @@ function PriceSection() {
         };
 
         setData(formattedData);
+
+        setLastUpdated(new Date());
       } catch (e) {
         setError(e);
       } finally {
@@ -84,6 +88,12 @@ function PriceSection() {
     };
 
     fetchData();
+
+    const interval = setInterval(() => {
+      fetchData();
+    }, 5000);
+
+    return () => clearInterval(interval);
   }, []);
 
   if (loading) return <p>Loading...</p>;
@@ -98,6 +108,13 @@ function PriceSection() {
       <h1 className={s.container__header}>
         Cryptocurrency <span className={s.container__header__span}>Prices</span>
       </h1>
+
+      {lastUpdated && (
+        <p className={s.lastUpdated}>
+          Last updated: {lastUpdated.toLocaleTimeString()}
+        </p>
+      )}
+
       <section className={s.container__iconsWrapper}>
         {Object.keys(data).map((crypto) => (
           <div key={crypto} className={s.container__iconsWrapper__iconBox}>

@@ -7,6 +7,9 @@
     @include d-flex-row;
     background-color: $white-color;
     border-radius: $border-radius;
+    box-shadow: inset 4em 1em $yellow-color, 3px 8px $yellow_btc-color;
+    //box-shadow: 3px 8px $yellow_btc-color,
+    // -1em 0 0.4em olive;
     justify-content: space-around;
     padding-top: 2rem;
 }

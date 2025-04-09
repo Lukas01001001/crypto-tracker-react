@@ -49,3 +49,24 @@
     }
   }
 }
+
+.lastUpdated {
+  text-align: center;
+  color: $dark-color;
+  font-size: 1rem;
+  font-weight: 800;
+  font-style:initial;
+  border: 1px solid $blue-color;
+  padding: 0.5rem 1rem;
+  margin-top: -5vh;
+  margin-bottom: -1vh;
+  border-radius: $border-radius;
+  width: fit-content;
+  align-self: center;
+  transition: background-color 0.3s ease;
+  background-color: rgba($blue-color, 0.05);
+
+  @media screen and (min-width: $tablet) {
+    font-size: 1.1rem;
+  }
+}
