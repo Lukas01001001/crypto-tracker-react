@@ -28,8 +28,8 @@
       padding: 1.5rem;
       border-radius: $border-radius;
       gap: 5vw;
-      transition: box-shadow,scale,cursor, .7s;
-      will-change: box-shadow,scale,cursor;
+      transition: box-shadow, scale, cursor, 0.7s;
+      will-change: box-shadow, scale, cursor;
       @media screen and (min-width: $tablet) {
         gap: 2vw;
       }
@@ -43,9 +43,9 @@
       }
     }
     &__iconBox:hover {
-        @include box-shadow;
-        cursor: pointer;
-        scale: 1.1;
+      @include box-shadow;
+      cursor: pointer;
+      scale: 1.1;
     }
   }
 }
@@ -55,7 +55,7 @@
   color: $dark-color;
   font-size: 1rem;
   font-weight: 800;
-  font-style:initial;
+  font-style: initial;
   border: 1px solid $blue-color;
   padding: 0.5rem 1rem;
   margin-top: -5vh;
@@ -69,4 +69,12 @@
   @media screen and (min-width: $tablet) {
     font-size: 1.1rem;
   }
+}
+
+.priceUp {
+  color: $solana-green-dark;
+}
+
+.priceDown {
+  color: $youtube-red;
 }

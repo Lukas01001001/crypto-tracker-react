@@ -18,6 +18,8 @@ function PriceSection() {
 
   const [lastUpdated, setLastUpdated] = useState(null);
 
+  const [previousData, setPreviousData] = useState({});
+
   const cryptoIcons = {
     BTC: btc,
     ETH: eth,
@@ -77,7 +79,13 @@ function PriceSection() {
           DOGE: { USD: parseFloat(results[5].price) },
         };
 
-        setData(formattedData);
+        //setPreviousData(data);
+        //setData(formattedData);
+
+        setData((prevData) => {
+          setPreviousData(prevData);
+          return formattedData;
+        });
 
         setLastUpdated(new Date());
       } catch (e) {
@@ -116,18 +124,31 @@ function PriceSection() {
       )}
 
       <section className={s.container__iconsWrapper}>
-        {Object.keys(data).map((crypto) => (
-          <div key={crypto} className={s.container__iconsWrapper__iconBox}>
-            <img
-              className={s.container__iconsWrapper__iconBox__img}
-              src={cryptoIcons[crypto]}
-              alt={`${crypto} icon`}
-            />
-            <span className={s.container__iconsWrapper__iconBox__price}>
-              $ {data[crypto].USD.toFixed(5)}
-            </span>
-          </div>
-        ))}
+        {Object.keys(data).map((crypto) => {
+          const current = data[crypto].USD;
+          const previous = previousData[crypto]?.USD;
+
+          let priceClass = "";
+          if (previous !== undefined) {
+            if (current > previous) priceClass = s.priceUp;
+            else if (current < previous) priceClass = s.priceDown;
+          }
+
+          return (
+            <div key={crypto} className={s.container__iconsWrapper__iconBox}>
+              <img
+                className={s.container__iconsWrapper__iconBox__img}
+                src={cryptoIcons[crypto]}
+                alt={`${crypto} icon`}
+              />
+              <span
+                className={`${s.container__iconsWrapper__iconBox__price} ${priceClass}`}
+              >
+                $ {current.toFixed(5)}
+              </span>
+            </div>
+          );
+        })}
       </section>
     </section>
   );
