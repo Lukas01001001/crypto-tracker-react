@@ -3,11 +3,13 @@ import React from "react";
 import s from "./PriceSection.module.scss";
 
 import btc from "../../assets/btc.svg";
+import pi from "../../assets/pi-network.svg";
 import eth from "../../assets/eth.svg";
 import xrp from "../../assets/xrp.svg";
+import ada from "../..//assets/cardano.svg";
 import sol from "../../assets/sol.svg";
-import ltc from "../../assets/ltc.svg";
 import doge from "../../assets/doge.svg";
+import ltc from "../../assets/ltc.svg";
 
 import { useEffect, useState } from "react";
 
@@ -22,11 +24,13 @@ function PriceSection() {
 
   const cryptoIcons = {
     BTC: btc,
+    PI: pi,
     ETH: eth,
     XRP: xrp,
+    ADA: ada,
     SOL: sol,
-    LTC: ltc,
     DOGE: doge,
+    LTC: ltc,
   };
 
   //*********************************************************** */
@@ -56,9 +60,10 @@ function PriceSection() {
           "BTCUSDT",
           "ETHUSDT",
           "XRPUSDT",
+          "ADAUSDT",
           "SOLUSDT",
-          "LTCUSDT",
           "DOGEUSDT",
+          "LTCUSDT",
         ];
 
         const responses = await Promise.all(
@@ -70,13 +75,23 @@ function PriceSection() {
         );
         const results = await Promise.all(responses.map((r) => r.json()));
 
+        ///////////////////////////////////////////////////////////////////
+        const piResponse = await fetch(
+          "https://api.coingecko.com/api/v3/simple/price?ids=pi-network&vs_currencies=usd"
+        );
+        const piResult = await piResponse.json();
+
+        ///////////////////////////////////////////////////////////////////
+
         const formattedData = {
           BTC: { USD: parseFloat(results[0].price) },
+          PI: { USD: parseFloat(piResult["pi-network"].usd) },
           ETH: { USD: parseFloat(results[1].price) },
           XRP: { USD: parseFloat(results[2].price) },
-          SOL: { USD: parseFloat(results[3].price) },
-          LTC: { USD: parseFloat(results[4].price) },
+          ADA: { USD: parseFloat(results[3].price) },
+          SOL: { USD: parseFloat(results[4].price) },
           DOGE: { USD: parseFloat(results[5].price) },
+          LTC: { USD: parseFloat(results[6].price) },
         };
 
         //setPreviousData(data);

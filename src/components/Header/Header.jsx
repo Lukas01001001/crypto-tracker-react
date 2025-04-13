@@ -13,7 +13,7 @@ function Header() {
       <Logo />
       <Menu />
       <Hamburger />
-      <LogActions />
+      {/*<LogActions />*/}
     </header>
   );
 }
