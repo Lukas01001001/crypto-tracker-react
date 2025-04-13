@@ -76,9 +76,13 @@ function PriceSection() {
         const results = await Promise.all(responses.map((r) => r.json()));
 
         ///////////////////////////////////////////////////////////////////
-        const piResponse = await fetch(
-          "https://api.coingecko.com/api/v3/simple/price?ids=pi-network&vs_currencies=usd"
-        );
+        //const piResponse = await fetch(
+        //  "https://api.coingecko.com/api/v3/simple/price?ids=pi-network&vs_currencies=usd"
+        //);
+        //const piResult = await piResponse.json();
+
+        // netlify/functions/pi.js
+        const piResponse = await fetch("/.netlify/functions/pi");
         const piResult = await piResponse.json();
 
         ///////////////////////////////////////////////////////////////////
