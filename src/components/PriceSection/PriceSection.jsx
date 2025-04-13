@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import s from "./PriceSection.module.scss";
 
@@ -6,20 +6,16 @@ import btc from "../../assets/btc.svg";
 import pi from "../../assets/pi-network.svg";
 import eth from "../../assets/eth.svg";
 import xrp from "../../assets/xrp.svg";
-import ada from "../..//assets/cardano.svg";
+import ada from "../../assets/cardano.svg";
 import sol from "../../assets/sol.svg";
 import doge from "../../assets/doge.svg";
 import ltc from "../../assets/ltc.svg";
-
-import { useEffect, useState } from "react";
 
 function PriceSection() {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const [lastUpdated, setLastUpdated] = useState(null);
-
   const [previousData, setPreviousData] = useState({});
 
   const cryptoIcons = {
@@ -33,63 +29,32 @@ function PriceSection() {
     LTC: ltc,
   };
 
-  //*********************************************************** */
-  /*useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("Twój Endpoit");
-        if (!response.ok) {
-          throw new Error("Error");
-        }
-        const result = await response.json();
-        setData(result);
-      } catch (e) {
-        setError(e);
-      } finally {
-        setLoading(false);
-      }
-    };
+  // Fetch prices from Binance (every 5 seconds)
+  const fetchBinance = async () => {
+    try {
+      const symbols = [
+        "BTCUSDT",
+        "ETHUSDT",
+        "XRPUSDT",
+        "ADAUSDT",
+        "SOLUSDT",
+        "DOGEUSDT",
+        "LTCUSDT",
+      ];
 
-    fetchData();
-  }, []);
-  //******************************************************* */
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const symbols = [
-          "BTCUSDT",
-          "ETHUSDT",
-          "XRPUSDT",
-          "ADAUSDT",
-          "SOLUSDT",
-          "DOGEUSDT",
-          "LTCUSDT",
-        ];
+      const responses = await Promise.all(
+        symbols.map((symbol) =>
+          fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`)
+        )
+      );
 
-        const responses = await Promise.all(
-          symbols.map((symbol) =>
-            fetch(
-              `https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`
-            )
-          )
-        );
-        const results = await Promise.all(responses.map((r) => r.json()));
+      const results = await Promise.all(responses.map((r) => r.json()));
 
-        ///////////////////////////////////////////////////////////////////
-        //const piResponse = await fetch(
-        //  "https://api.coingecko.com/api/v3/simple/price?ids=pi-network&vs_currencies=usd"
-        //);
-        //const piResult = await piResponse.json();
-
-        // netlify/functions/pi.js
-        const piResponse = await fetch("/.netlify/functions/pi");
-        const piResult = await piResponse.json();
-
-        ///////////////////////////////////////////////////////////////////
-
-        const formattedData = {
+      setData((prevData) => {
+        setPreviousData(prevData);
+        return {
+          ...prevData,
           BTC: { USD: parseFloat(results[0].price) },
-          PI: { USD: parseFloat(piResult["pi-network"].usd) },
           ETH: { USD: parseFloat(results[1].price) },
           XRP: { USD: parseFloat(results[2].price) },
           ADA: { USD: parseFloat(results[3].price) },
@@ -97,38 +62,59 @@ function PriceSection() {
           DOGE: { USD: parseFloat(results[5].price) },
           LTC: { USD: parseFloat(results[6].price) },
         };
+      });
 
-        //setPreviousData(data);
-        //setData(formattedData);
+      setLastUpdated(new Date());
+      setLoading(false);
+    } catch (e) {
+      setError(e);
+    }
+  };
 
+  // Fetch PI price from CoinGecko via Netlify function (every 60 seconds)
+  const fetchPi = async () => {
+    try {
+      const piResponse = await fetch("/.netlify/functions/pi");
+      const piResult = await piResponse.json();
+
+      const price =
+        piResult?.["pi-network"]?.usd !== undefined
+          ? parseFloat(piResult["pi-network"].usd)
+          : null;
+
+      if (price !== null) {
         setData((prevData) => {
           setPreviousData(prevData);
-          return formattedData;
+          return {
+            ...prevData,
+            PI: { USD: price },
+          };
         });
-
-        setLastUpdated(new Date());
-      } catch (e) {
-        setError(e);
-      } finally {
-        setLoading(false);
       }
+    } catch (e) {
+      console.error("PI fetch error:", e);
+    }
+  };
+
+  useEffect(() => {
+    // Initial fetch
+    fetchBinance();
+    fetchPi();
+
+    // Binance: every 5 seconds
+    const binanceInterval = setInterval(fetchBinance, 5000);
+
+    // Pi Network: every 60 seconds
+    const piInterval = setInterval(fetchPi, 20000);
+
+    return () => {
+      clearInterval(binanceInterval);
+      clearInterval(piInterval);
     };
-
-    fetchData();
-
-    const interval = setInterval(() => {
-      fetchData();
-    }, 5000);
-
-    return () => clearInterval(interval);
   }, []);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message} </p>;
-
-  //console.log("Crypto:", crypto);
-  //console.log("Data:", data[crypto]);
-  //console.log("Icon:", cryptoIcons[crypto]);
+  if (error) return <p>Error: {error.message}</p>;
 
   return (
     <section className={s.container}>
@@ -144,11 +130,11 @@ function PriceSection() {
 
       <section className={s.container__iconsWrapper}>
         {Object.keys(data).map((crypto) => {
-          const current = data[crypto].USD;
+          const current = data[crypto]?.USD;
           const previous = previousData[crypto]?.USD;
 
           let priceClass = "";
-          if (previous !== undefined) {
+          if (previous !== undefined && current !== undefined) {
             if (current > previous) priceClass = s.priceUp;
             else if (current < previous) priceClass = s.priceDown;
           }
@@ -163,7 +149,7 @@ function PriceSection() {
               <span
                 className={`${s.container__iconsWrapper__iconBox__price} ${priceClass}`}
               >
-                $ {current.toFixed(5)}
+                $ {current !== undefined ? current.toFixed(5) : "?"}
               </span>
             </div>
           );
