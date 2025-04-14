@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -10,6 +10,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+
+import { ArrowLeft } from "lucide-react";
 
 ChartJS.register(
   LineElement,
@@ -22,6 +24,7 @@ ChartJS.register(
 
 function CryptoChartPage() {
   const { symbol } = useParams();
+  const navigate = useNavigate();
   const [chartData, setChartData] = useState(null);
 
   useEffect(() => {
@@ -59,6 +62,7 @@ function CryptoChartPage() {
               data: data.prices.map(([, price]) => price),
               borderColor: "orange",
               tension: 0.4,
+              pointRadius: 0,
             },
           ],
         });
@@ -70,11 +74,33 @@ function CryptoChartPage() {
     fetchHistory();
   }, [symbol]);
 
-  if (!chartData) return <p>Loading {symbol} chart...</p>;
+  if (!chartData)
+    return <p style={{ textAlign: "center" }}>Loading {symbol} chart...</p>;
 
   return (
     <section style={{ padding: "2rem", maxWidth: "800px", margin: "0 auto" }}>
-      <h2 style={{ textAlign: "center" }}>{symbol} 24h Chart</h2>
+      <button
+        onClick={() => navigate(-1)}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "0.5rem",
+          padding: "0.5rem 1rem",
+          marginBottom: "1rem",
+          background: "#f6b133",
+          border: "none",
+          color: "#000",
+          fontWeight: "bold",
+          borderRadius: "5px",
+          cursor: "pointer",
+        }}
+      >
+        <ArrowLeft size={18} /> Back
+      </button>
+
+      <h2 style={{ textAlign: "center", marginBottom: "1rem" }}>
+        {symbol} 24h Chart
+      </h2>
       <Line data={chartData} />
     </section>
   );

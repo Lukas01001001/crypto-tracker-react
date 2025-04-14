@@ -153,7 +153,13 @@ function PriceSection() {
           }
 
           return (
-            <div key={crypto} className={s.container__iconsWrapper__iconBox}>
+            <div
+              key={crypto}
+              className={s.container__iconsWrapper__iconBox}
+              onClick={() => navigate(`/chart/${crypto}`)}
+              style={{ cursor: "pointer" }}
+              title={`Click to view ${crypto} chart`}
+            >
               <img
                 className={s.container__iconsWrapper__iconBox__img}
                 src={cryptoIcons[crypto]}
@@ -161,9 +167,6 @@ function PriceSection() {
               />
               <span
                 className={`${s.container__iconsWrapper__iconBox__price} ${priceClass}`}
-                onClick={() => navigate(`/chart/${crypto}`)}
-                style={{ cursor: "pointer" }}
-                title={`Click to view ${crypto} chart`}
               >
                 $ {current !== undefined ? current.toFixed(5) : "?"}
               </span>
