@@ -88,7 +88,17 @@ function PriceSection() {
   // Fetch PI price from CoinGecko via Netlify function
   const fetchPi = async () => {
     try {
+      /*if (window.location.hostname === "localhost") {
+        console.warn("Skipping PI fetch in local mode");
+        return;
+      }*/
+
       const piResponse = await fetch("/.netlify/functions/pi");
+
+      //const piResponse = await fetch(
+      //  "https://cryptoip.netlify.app/.netlify/functions/pi"
+      //);
+
       const piResult = await piResponse.json();
 
       const price =

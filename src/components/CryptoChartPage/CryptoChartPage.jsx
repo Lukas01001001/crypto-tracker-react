@@ -26,6 +26,7 @@ function CryptoChartPage() {
   const { symbol } = useParams();
   const navigate = useNavigate();
   const [chartData, setChartData] = useState(null);
+  const [range, setRange] = useState("1"); // default: 24h
 
   useEffect(() => {
     const fetchHistory = async () => {
@@ -44,14 +45,15 @@ function CryptoChartPage() {
         const id = coinIdMap[symbol.toUpperCase()];
         if (!id) return;
 
-        const cacheKey = `chartData_${symbol}`;
+        const cacheKey = `chartData_${symbol}_${range}`;
         const cache = localStorage.getItem(cacheKey);
 
         if (cache) {
           const parsed = JSON.parse(cache);
           const now = Date.now();
           const age = now - parsed.timestamp;
-          const maxAge = 30 * 60 * 1000; // 30 minutes
+          //const maxAge = 30 * 60 * 1000; // 30 minutes
+          const maxAge = range === "1" ? 30 * 60 * 1000 : 24 * 60 * 60 * 1000;
 
           if (age < maxAge && parsed.data) {
             setChartData(parsed.data);
@@ -69,13 +71,15 @@ function CryptoChartPage() {
         const formatted = {
           labels: data.prices.map(([timestamp]) =>
             new Date(timestamp).toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit",
+              month: "short",
+              day: "numeric",
+              hour: range === "1" ? "2-digit" : undefined,
+              minute: range === "1" ? "2-digit" : undefined,
             })
           ),
           datasets: [
             {
-              label: `${symbol}/USD (24h)`,
+              label: `${symbol}/USD (${range === "1" ? "24h" : range + "D"})`,
               data: data.prices.map(([, price]) => price),
               borderColor: "#f6b133",
               tension: 0.4,
@@ -99,7 +103,7 @@ function CryptoChartPage() {
     };
 
     fetchHistory();
-  }, [symbol]);
+  }, [symbol, range]);
 
   if (!chartData)
     return <p style={{ textAlign: "center" }}>Loading {symbol} chart...</p>;
@@ -128,6 +132,30 @@ function CryptoChartPage() {
       <h2 style={{ textAlign: "center", marginBottom: "1rem" }}>
         {symbol} 24h Chart
       </h2>
+      <div style={{ textAlign: "center", marginBottom: "1rem" }}>
+        {["1", "7", "30", "365", "max"].map((r) => (
+          <button
+            key={r}
+            onClick={() => setRange(r)}
+            style={{
+              margin: "0 5px",
+              padding: "6px 12px",
+              background: range === r ? "#f6b133" : "#eee",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              cursor: "pointer",
+              fontWeight: range === r ? "bold" : "normal",
+            }}
+          >
+            {r === "1" && "24h"}
+            {r === "7" && "7D"}
+            {r === "30" && "30D"}
+            {r === "365" && "1Y"}
+            {r === "max" && "ALL"}
+          </button>
+        ))}
+      </div>
+
       <Line data={chartData} />
     </section>
   );
