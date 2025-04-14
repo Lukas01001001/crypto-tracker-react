@@ -44,12 +44,29 @@ function CryptoChartPage() {
         const id = coinIdMap[symbol.toUpperCase()];
         if (!id) return;
 
+        const cacheKey = `chartData_${symbol}`;
+        const cache = localStorage.getItem(cacheKey);
+
+        if (cache) {
+          const parsed = JSON.parse(cache);
+          const now = Date.now();
+          const age = now - parsed.timestamp;
+          const maxAge = 30 * 60 * 1000; // 30 minutes
+
+          if (age < maxAge && parsed.data) {
+            setChartData(parsed.data);
+            return;
+          } else {
+            localStorage.removeItem(cacheKey); // clear expired
+          }
+        }
+
         const res = await fetch(
           `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=usd&days=1`
         );
         const data = await res.json();
 
-        setChartData({
+        const formatted = {
           labels: data.prices.map(([timestamp]) =>
             new Date(timestamp).toLocaleTimeString([], {
               hour: "2-digit",
@@ -60,12 +77,22 @@ function CryptoChartPage() {
             {
               label: `${symbol}/USD (24h)`,
               data: data.prices.map(([, price]) => price),
-              borderColor: "orange",
+              borderColor: "#f6b133",
               tension: 0.4,
               pointRadius: 0,
             },
           ],
-        });
+        };
+
+        localStorage.setItem(
+          cacheKey,
+          JSON.stringify({
+            timestamp: Date.now(),
+            data: formatted,
+          })
+        );
+
+        setChartData(formatted);
       } catch (err) {
         console.error(err);
       }
