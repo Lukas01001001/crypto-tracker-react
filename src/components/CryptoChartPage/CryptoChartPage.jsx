@@ -86,10 +86,14 @@ function CryptoChartPage() {
           }
         }
 
-        const res = await fetch(
+        /*const res = await fetch(
           `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=usd&days=${
             range === "max" ? "max" : range
           }`
+        );*/
+
+        const res = await fetch(
+          `/.netlify/functions/cryptoChart?id=${id}&vs_currency=usd&days=${range}`
         );
 
         const data = await res.json();
