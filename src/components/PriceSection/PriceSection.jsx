@@ -113,6 +113,8 @@ function PriceSection() {
 
   useEffect(() => {
     fetchBinance(); // initial load
+    fetchPi(); // initial load
+
     const binanceInterval = setInterval(fetchBinance, 5000);
     return () => clearInterval(binanceInterval);
   }, []);
