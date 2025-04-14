@@ -17,6 +17,7 @@ function PriceSection() {
   const [error, setError] = useState(null);
   const [lastUpdated, setLastUpdated] = useState(null);
   const [previousData, setPreviousData] = useState({});
+  const [binanceCounter, setBinanceCounter] = useState(0); // counter for syncing Pi fetch
 
   const cryptoIcons = {
     BTC: btc,
@@ -29,7 +30,7 @@ function PriceSection() {
     LTC: ltc,
   };
 
-  // Fetch prices from Binance (every 5 seconds)
+  // Fetch prices from Binance
   const fetchBinance = async () => {
     try {
       const symbols = [
@@ -51,7 +52,7 @@ function PriceSection() {
       const results = await Promise.all(responses.map((r) => r.json()));
 
       setData((prevData) => {
-        setPreviousData(prevData);
+        setPreviousData(prevData); // update previousData before setting new
         return {
           ...prevData,
           BTC: { USD: parseFloat(results[0].price) },
@@ -66,12 +67,22 @@ function PriceSection() {
 
       setLastUpdated(new Date());
       setLoading(false);
+
+      // Update binance counter
+      setBinanceCounter((prev) => {
+        const next = prev + 1;
+        if (next >= 12) {
+          fetchPi(); // fetch Pi price every 12th Binance fetch (~60s)
+          return 0;
+        }
+        return next;
+      });
     } catch (e) {
       setError(e);
     }
   };
 
-  // Fetch PI price from CoinGecko via Netlify function (every 60 seconds)
+  // Fetch PI price from CoinGecko via Netlify function
   const fetchPi = async () => {
     try {
       const piResponse = await fetch("/.netlify/functions/pi");
@@ -84,7 +95,11 @@ function PriceSection() {
 
       if (price !== null) {
         setData((prevData) => {
-          setPreviousData(prevData);
+          setPreviousData((prevPrev) => ({
+            ...prevPrev,
+            PI: prevData.PI, // store current PI as previous
+          }));
+
           return {
             ...prevData,
             PI: { USD: price },
@@ -97,24 +112,15 @@ function PriceSection() {
   };
 
   useEffect(() => {
-    // Initial fetch
-    fetchBinance();
-    fetchPi();
-
-    // Binance: every 5 seconds
+    fetchBinance(); // initial load
     const binanceInterval = setInterval(fetchBinance, 5000);
-
-    // Pi Network: every 60 seconds
-    const piInterval = setInterval(fetchPi, 20000);
-
-    return () => {
-      clearInterval(binanceInterval);
-      clearInterval(piInterval);
-    };
+    return () => clearInterval(binanceInterval);
   }, []);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
+
+  const displayOrder = ["BTC", "PI", "ETH", "XRP", "ADA", "SOL", "DOGE", "LTC"];
 
   return (
     <section className={s.container}>
@@ -129,7 +135,9 @@ function PriceSection() {
       )}
 
       <section className={s.container__iconsWrapper}>
-        {Object.keys(data).map((crypto) => {
+        {displayOrder.map((crypto) => {
+          if (!data[crypto]) return null;
+
           const current = data[crypto]?.USD;
           const previous = previousData[crypto]?.USD;
 
