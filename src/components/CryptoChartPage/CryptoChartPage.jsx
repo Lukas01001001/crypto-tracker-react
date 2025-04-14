@@ -86,15 +86,15 @@ function CryptoChartPage() {
           }
         }
 
-        /*const res = await fetch(
-          `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=usd&days=${
-            range === "max" ? "max" : range
-          }`
-        );*/
-
         const res = await fetch(
-          `/.netlify/functions/cryptoChart?id=${id}&vs_currency=usd&days=${range}`
+          `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=usd&days=${
+            range === "max" ? "365" : range
+          }`
         );
+
+        /*const res = await fetch(
+          `/.netlify/functions/cryptoChart?id=${id}&vs_currency=usd&days=${range}`
+        );*/
 
         const data = await res.json();
 
@@ -177,6 +177,9 @@ function CryptoChartPage() {
               cursor: "pointer",
               fontWeight: range === r ? "bold" : "normal",
             }}
+            title={
+              r === "max" ? "Due to free API limits, shows 1 year data" : ""
+            }
           >
             {r === "1" && "24h"}
             {r === "7" && "7D"}
