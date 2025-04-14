@@ -29,6 +29,29 @@ function CryptoChartPage() {
   const [range, setRange] = useState("1"); // default: 24h
 
   useEffect(() => {
+    // Clean up old cached chart data on component mount
+    const now = Date.now();
+
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith("chartData_")) {
+        try {
+          const item = JSON.parse(localStorage.getItem(key));
+          if (!item?.timestamp) continue;
+
+          const is24h = key.includes("_1");
+          const age = now - item.timestamp;
+          const maxAge = is24h ? 30 * 60 * 1000 : 24 * 60 * 60 * 1000;
+
+          if (age > maxAge) {
+            localStorage.removeItem(key);
+          }
+        } catch (err) {
+          console.warn("Invalid localStorage item:", key);
+        }
+      }
+    }
+
     const fetchHistory = async () => {
       try {
         const coinIdMap = {
@@ -130,8 +153,9 @@ function CryptoChartPage() {
       </button>
 
       <h2 style={{ textAlign: "center", marginBottom: "1rem" }}>
-        {symbol} 24h Chart
+        {symbol} {range === "1" ? "24h" : range + "D"} Chart
       </h2>
+
       <div style={{ textAlign: "center", marginBottom: "1rem" }}>
         {["1", "7", "30", "365", "max"].map((r) => (
           <button
