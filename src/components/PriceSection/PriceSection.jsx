@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import s from "./PriceSection.module.scss";
 
@@ -18,6 +19,8 @@ function PriceSection() {
   const [lastUpdated, setLastUpdated] = useState(null);
   const [previousData, setPreviousData] = useState({});
   const [binanceCounter, setBinanceCounter] = useState(0); // counter for syncing Pi fetch
+
+  const navigate = useNavigate();
 
   const cryptoIcons = {
     BTC: btc,
@@ -158,6 +161,9 @@ function PriceSection() {
               />
               <span
                 className={`${s.container__iconsWrapper__iconBox__price} ${priceClass}`}
+                onClick={() => navigate(`/chart/${crypto}`)}
+                style={{ cursor: "pointer" }}
+                title={`Click to view ${crypto} chart`}
               >
                 $ {current !== undefined ? current.toFixed(5) : "?"}
               </span>
