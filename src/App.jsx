@@ -1,10 +1,9 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 import Home from "./components/HomePage/Home";
 import Header from "./components/Header/Header";
 import PriceSection from "./components/PriceSection/PriceSection";
-
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
-import CryptoChartPage from "./components/CryptoChartPage/CryptoChartPage"; // nowy komponent
+import CryptoChartPage from "./components/CryptoChartPage/CryptoChartPage";
 
 function App() {
   return (
@@ -14,15 +13,8 @@ function App() {
       {/* <PriceSection />
         <Home /> */}
       <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <PriceSection />
-              <Home />
-            </>
-          }
-        />
+        <Route path="/" element={<PriceSection />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/chart/:symbol" element={<CryptoChartPage />} />
       </Routes>
     </Router>

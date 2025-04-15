@@ -85,23 +85,26 @@ function PriceSection() {
     }
   };
 
-  // Fetch PI price from CoinGecko via Netlify function
+  // Fetch PI price from CoinGecko (supports multiple sources)
   const fetchPi = async () => {
     try {
-      /*if (window.location.hostname === "localhost") {
-        console.warn("Skipping PI fetch in local mode");
-        return;
-      }*/
+      // ❌ Skip Netlify function when running locally (uncomment if needed)
+      // if (window.location.hostname === "localhost") {
+      //   console.warn("Skipping PI fetch in local mode");
+      //   return;
+      // }
+      // ✅ Option A – Local Netlify function (use when deployed on Netlify)
+      // const piResponse = await fetch("/.netlify/functions/pi");
 
-      //const piResponse = await fetch("/.netlify/functions/pi");
-
-      const piResponse = await fetch(
-        "https://cryptoip.netlify.app/.netlify/functions/pi"
-      );
-
+      // ✅ Option B – Hosted Netlify Function (production only)
       // const piResponse = await fetch(
-      //   "https://api.coingecko.com/api/v3/simple/price?ids=pi-network&vs_currencies=usd"
+      //   "https://cryptoip.netlify.app/.netlify/functions/pi"
       // );
+
+      // ✅ Option C – Direct public CoinGecko API (works locally and in production)
+      const piResponse = await fetch(
+        "https://api.coingecko.com/api/v3/simple/price?ids=pi-network&vs_currencies=usd"
+      );
       const piResult = await piResponse.json();
 
       const price =

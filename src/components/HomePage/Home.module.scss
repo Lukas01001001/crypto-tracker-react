@@ -3,6 +3,7 @@
 .container {
   background-color: $white-color;
   height: 100vh;
+  padding-top: 8rem;
   @include d-flex-column;
   @media screen and (min-width: $small-desktop) {
     flex-direction: row;

@@ -10,7 +10,7 @@
       @include menuItem();
       font-size: $menu-font-size-desktop;
       font-weight: 500;
-      transition: scale, color, .7s;
+      transition: scale, color, 0.7s;
       will-change: scale, color;
     }
     &__menuItem:hover {
@@ -18,24 +18,15 @@
       color: $blue-color;
     }
   }
-}@import "../../../style/index.scss";
+}
 
-.menuList {
-  display: none;
-  @media screen and (min-width: $small-desktop) {
-    text-align: center;
-    @include d-flex-row;
-    gap: 5vw;
-    &__menuItem {
-      @include menuItem();
-      font-size: $menu-font-size-desktop;
-      font-weight: 500;
-      transition: scale, color, .7s;
-      will-change: scale, color;
-    }
-    &__menuItem:hover {
-      scale: 1.2;
-      color: $blue-color;
-    }
-  }
+.link {
+  text-decoration: none;
+  color: $black-color;
+  transition: color 0.3s ease;
+}
+
+.active {
+  color: $blues-color;
+  font-weight: bold;
 }
