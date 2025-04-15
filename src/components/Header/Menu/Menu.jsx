@@ -7,6 +7,16 @@ function Menu() {
       <ul className={s.menuList}>
         <li className={s.menuList__menuItem}>
           <NavLink
+            to="/home"
+            className={({ isActive }) =>
+              isActive ? `${s.link} ${s.active}` : s.link
+            }
+          >
+            Home
+          </NavLink>
+        </li>
+        <li className={s.menuList__menuItem}>
+          <NavLink
             to="/"
             className={({ isActive }) =>
               isActive ? `${s.link} ${s.active}` : s.link
@@ -15,14 +25,15 @@ function Menu() {
             Prices
           </NavLink>
         </li>
+
         <li className={s.menuList__menuItem}>
           <NavLink
-            to="/home"
+            to="/fear-greed"
             className={({ isActive }) =>
               isActive ? `${s.link} ${s.active}` : s.link
             }
           >
-            Home
+            Fear & Greed
           </NavLink>
         </li>
       </ul>

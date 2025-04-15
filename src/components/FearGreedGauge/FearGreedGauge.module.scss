@@ -1,0 +1,21 @@
+@import "../../style/index.scss";
+
+.gaugeWrapper {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.svg {
+  width: 100%;
+  height: auto;
+}
+
+.valueText {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: $dark-color;
+  margin-top: 2rem;
+  text-transform: uppercase;
+}

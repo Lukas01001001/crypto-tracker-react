@@ -24,6 +24,11 @@ function MobileMenu({ clickToggleHandler }) {
             Home
           </NavLink>
         </li>
+        <li className={s.container__menuList__menuItem}>
+          <NavLink to="/fear-greed" onClick={clickToggleHandler}>
+            Fear & Greed
+          </NavLink>
+        </li>
       </ul>
 
       {/* <ul className={s.container__logActionsList}>

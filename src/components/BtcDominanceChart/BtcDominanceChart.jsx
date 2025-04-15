@@ -70,7 +70,7 @@ const options = {
 export default function BtcDominanceChart() {
   return (
     <div className={styles.chartWrapper}>
-      <h2> BTC Dominance (Past 12 Months)</h2>
+      <h2>5 BTC Dominance (Past 12 Months)</h2>
       <Line data={data} options={options} />
     </div>
   );

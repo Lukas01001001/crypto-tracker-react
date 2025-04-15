@@ -1,0 +1,81 @@
+@import "../../style/index.scss";
+
+.container {
+  @include d-flex-column;
+  align-items: center;
+  text-align: center;
+  padding: 5vh 2rem;
+}
+
+.title {
+  font-size: 2.2rem;
+  color: $blue-color;
+  margin-bottom: 1rem;
+}
+
+.valueBox {
+  background-color: rgba($blue-color, 0.1);
+  padding: 2rem;
+  border-radius: $border-radius;
+  border: 2px solid $blue-color;
+  width: fit-content;
+}
+
+.value {
+  font-size: 3rem;
+  font-weight: 900;
+  color: $dark-color;
+}
+
+.label {
+  font-size: 1.5rem;
+  margin-top: 0.5rem;
+  text-transform: uppercase;
+  color: $blue-color;
+}
+
+.date {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: gray;
+}
+
+.loading,
+.error {
+  color: $youtube-red;
+  font-weight: bold;
+  margin-top: 2rem;
+}
+
+.legend {
+  margin-top: 2rem;
+  font-size: 0.95rem;
+  color: $dark-color;
+
+  ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+    margin: 0 auto;
+    max-width: 320px;
+
+    li {
+      display: flex;
+      align-items: center;
+      margin: 0.5rem 0;
+    }
+  }
+}
+
+.legendTitle {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.6rem;
+}
