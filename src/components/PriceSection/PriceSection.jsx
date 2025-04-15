@@ -93,12 +93,15 @@ function PriceSection() {
         return;
       }*/
 
-      const piResponse = await fetch("/.netlify/functions/pi");
+      //const piResponse = await fetch("/.netlify/functions/pi");
 
-      //const piResponse = await fetch(
-      //  "https://cryptoip.netlify.app/.netlify/functions/pi"
-      //);
+      const piResponse = await fetch(
+        "https://cryptoip.netlify.app/.netlify/functions/pi"
+      );
 
+      // const piResponse = await fetch(
+      //   "https://api.coingecko.com/api/v3/simple/price?ids=pi-network&vs_currencies=usd"
+      // );
       const piResult = await piResponse.json();
 
       const price =
