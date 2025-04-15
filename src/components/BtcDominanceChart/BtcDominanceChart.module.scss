@@ -1,0 +1,16 @@
+@import "../../style/index.scss";
+.chartWrapper {
+  background-color: $white-color;
+  padding: 2rem;
+  border-radius: $border-radius;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  margin: 2rem auto;
+  width: 90%;
+  max-width: 800px;
+  h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: $dark-color;
+  }
+}

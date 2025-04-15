@@ -1,0 +1,35 @@
+@import "../../style/index.scss";
+
+.container {
+  background-color: rgba($yellow_btc-color, 0.1);
+  border: 1px solid $yellow_btc-color;
+  padding: 1rem;
+  border-radius: $border-radius;
+  text-align: center;
+  margin: 2rem auto;
+  width: 90%;
+  max-width: 500px;
+}
+
+.value {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: $dark-color;
+}
+
+.loading {
+  color: $blue-color;
+  text-align: center;
+  font-weight: 500;
+}
+
+.error {
+  color: $youtube-red;
+  text-align: center;
+  font-weight: 500;
+}
+
+.timestamp {
+  font-size: 0.8rem;
+  color: gray;
+}

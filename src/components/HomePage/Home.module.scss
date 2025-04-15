@@ -1,6 +1,10 @@
 @import "../../style/index.scss";
 
 .container {
+  background-image: url("../../assets/mainImages.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right center;
   background-color: $white-color;
   height: 100vh;
   padding-top: 8rem;

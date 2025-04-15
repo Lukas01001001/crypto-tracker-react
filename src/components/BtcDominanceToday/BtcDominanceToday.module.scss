@@ -1,0 +1,24 @@
+@import "../../style/index.scss";
+
+.todayWrapper {
+  background-color: rgba($yellow_btc-color, 0.07);
+  border: 2px solid $yellow_btc-color;
+  padding: 1rem 2rem;
+  margin: 2rem auto;
+  border-radius: $border-radius;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: inset 0 0 10px rgba($yellow_btc-color, 0.1);
+}
+
+.label {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: $dark-color;
+}
+
+.value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: $yellow_btc-color;
+}
